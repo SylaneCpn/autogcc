@@ -1,9 +1,11 @@
 use std::process::Command;
 
+//Customs flags not implemented yet
 enum Flags {
     Clean,
     Unknown,
 }
+
 
 fn add_flags(args: Vec<String>) -> Vec<Flags> {
     let mut flags = Vec::new();
@@ -31,7 +33,7 @@ fn main() {
             .filter(|e| e.metadata().unwrap().is_file())
             //get the file name
             .map(|x| x.file_name().into_string().unwrap())
-            //only the .ts file
+            //only the .c file
             .filter(|s| s.ends_with(".c"))
             //call gcc for each file
             .for_each(|t| {
@@ -61,7 +63,7 @@ fn main() {
             .filter(|e| e.metadata().unwrap().is_file())
             //get the file name
             .map(|x| x.file_name().into_string().unwrap())
-            //only the .ts file
+            //only the  file to clean
             .filter(|s| s.ends_with(".o") || (s.as_str() == exe_name.to_str().unwrap()))
             //call gcc for each file
             .for_each(|t| {
