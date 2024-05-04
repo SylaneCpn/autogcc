@@ -55,20 +55,11 @@ fn main() {
             .expect("gcc command failed to start");
 
         let _ = build.wait();
+
+
     } else if (args[1] == "--clean") && (args.len() == 2) {
         //unwraps the item
-        paths
-            .map(|p| p.unwrap())
-            //check if is a file and not a directory
-            .filter(|e| e.metadata().unwrap().is_file())
-            //get the file name
-            .map(|x| x.file_name().into_string().unwrap())
-            //only the  file to clean
-            .filter(|s| s.ends_with(".o") || (s.as_str() == exe_name.to_str().unwrap()))
-            //call gcc for each file
-            .for_each(|t| {
-                let mut c = Command::new("rm").arg(t).spawn().expect("failed to rm");
-                let _ = c.wait();
-            });
+        let mut c = Command::new("rm").arg("-f").arg("*.o").arg(exe_name).spawn().expect("failed to rm");
+        let _ = c.wait();
     }
 }
